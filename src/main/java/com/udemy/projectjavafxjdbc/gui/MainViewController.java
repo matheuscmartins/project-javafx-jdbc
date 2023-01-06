@@ -25,16 +25,18 @@ public class MainViewController implements Initializable {
     private MenuItem menuItemAbout;
 
     @FXML
-    public void onMenuItemSellerAction(){
-System.out.println("onMenuItemSellerAction");
+    public void onMenuItemSellerAction() {
+        System.out.println("onMenuItemSellerAction");
     }
+
     @FXML
-    public void onMenuItemDepartmentAction(){
-        System.out.println("onMenuItemDepartmentAction");
+    public void onMenuItemDepartmentAction() {
+        loadView("/com/udemy/projectjavafxjdbc/gui/DepartmentList.fxml");
     }
+
     @FXML
-    public void onMenuItemAboutAction(){
-        loadView( "/com/udemy/projectjavafxjdbc/gui/About.fxml");
+    public void onMenuItemAboutAction() {
+        loadView("/com/udemy/projectjavafxjdbc/gui/About.fxml");
 
     }
 
@@ -42,7 +44,8 @@ System.out.println("onMenuItemSellerAction");
     public void initialize(URL uri, ResourceBundle rb) {
 
     }
-    private synchronized void loadView(String absoluteName){
+
+    private synchronized void loadView(String absoluteName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
             VBox newVbox = loader.load();
@@ -57,8 +60,8 @@ System.out.println("onMenuItemSellerAction");
             mainVbox.getChildren().add(newVbox); //pega os filhos do newVbox
             mainVbox.getChildren().addAll(newVbox.getChildren()); //adiciona uma coleção pegando os filhos do newVbox
 
-        } catch (IOException e){
-            Alerts.showAlert("IO Exception","Error load view", e.getMessage(), Alert.AlertType.ERROR);
+        } catch (IOException e) {
+            Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 }
