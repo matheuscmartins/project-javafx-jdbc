@@ -10,4 +10,8 @@ module com.udemy.projectjavafxjdbc {
     opens com.udemy.projectjavafxjdbc to javafx.fxml;
     exports com.udemy.projectjavafxjdbc.application;
     opens com.udemy.projectjavafxjdbc.application to javafx.fxml;
+    opens com.udemy.projectjavafxjdbc.gui to javafx.fxml;
+    exports com.udemy.projectjavafxjdbc.gui to javafx.fxml;
+
+
 }
