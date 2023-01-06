@@ -8,5 +8,6 @@ module com.udemy.projectjavafxjdbc {
     requires org.kordamp.ikonli.javafx;
 
     opens com.udemy.projectjavafxjdbc to javafx.fxml;
-    exports com.udemy.projectjavafxjdbc;
+    exports com.udemy.projectjavafxjdbc.application;
+    opens com.udemy.projectjavafxjdbc.application to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.udemy.projectjavafxjdbc;
+package com.udemy.projectjavafxjdbc.application;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
