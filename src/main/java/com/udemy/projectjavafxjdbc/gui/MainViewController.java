@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class MainViewController implements Initializable {
     @FXML
@@ -32,12 +33,17 @@ public class MainViewController implements Initializable {
 
     @FXML
     public void onMenuItemDepartmentAction() {
-        loadView2("/com/udemy/projectjavafxjdbc/gui/DepartmentList.fxml");
+        loadView("/com/udemy/projectjavafxjdbc/gui/DepartmentList.fxml",
+                (DepartmentListController controller) -> {
+                controller.setDepartmentService(new DepartmentService());
+                controller.updateTableView();
+                });
     }
 
     @FXML
     public void onMenuItemAboutAction() {
-        loadView("/com/udemy/projectjavafxjdbc/gui/About.fxml");
+        loadView("/com/udemy/projectjavafxjdbc/gui/About.fxml",
+                x -> {});
 
     }
 
@@ -46,7 +52,7 @@ public class MainViewController implements Initializable {
 
     }
 
-    private synchronized void loadView(String absoluteName) {
+    private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
             VBox newVbox = loader.load();
@@ -61,32 +67,13 @@ public class MainViewController implements Initializable {
             mainVbox.getChildren().add(newVbox); //pega os filhos do newVbox
             mainVbox.getChildren().addAll(newVbox.getChildren()); //adiciona uma coleção pegando os filhos do newVbox
 
-        } catch (IOException e) {
-            Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    private synchronized void loadView2(String absoluteName) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-            VBox newVbox = loader.load();
-
-            Scene mainScene = Main.getMainScene(); // pega referencia do Scene da main
-            VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-            //faz um casting dos componentes na mainScene para ScrollPane depois outro Casting para VBox
-
-            Node mainMenu = mainVbox.getChildren().get(0); //pega o primeiro filho do Vbox da janela principal
-            mainVbox.getChildren().clear();  //Limpa todos os filhos do mainVbox
-            mainVbox.getChildren().add(mainMenu); //pega os filhos do mainMenu
-            mainVbox.getChildren().add(newVbox); //pega os filhos do newVbox
-            mainVbox.getChildren().addAll(newVbox.getChildren()); //adiciona uma coleção pegando os filhos do newVbox
-
-            DepartmentListController controller= loader.getController();
-            controller.setDepartmentService(new DepartmentService()); //injeta dependencia no controller
-            controller.updateTableView(); //atualiza tableView
+            T controller = loader.getController(); //retorna um DepartmentControler generics
+            initializingAction.accept(controller); //executa a ação vinda por paramentro na initializingAction
 
         } catch (IOException e) {
             Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
+
 }
