@@ -12,6 +12,7 @@ module com.udemy.projectjavafxjdbc {
     opens com.udemy.projectjavafxjdbc.application to javafx.fxml;
     opens com.udemy.projectjavafxjdbc.gui to javafx.fxml;
     exports com.udemy.projectjavafxjdbc.gui to javafx.fxml;
+    opens com.udemy.projectjavafxjdbc.model.entites to javafx.base;
 
 
 }
