@@ -107,7 +107,8 @@ public class SellerListController implements Initializable, DataChangeListener {
             //trata atualização do obj Department
             SellerFormController controller = loader.getController();
             controller.setSeller(seller); //injeta um Seller
-            controller.setSellerService(new SellerService()); //injeta um SellerService
+            controller.setServices(new SellerService(), new DepartmentService()); //injeta um SellerService e DepartmentService
+            controller.loadAssociatedObjects(); //carrega os Department no controller
             controller.subscribeDataChangeListner(this); //se auto escreve para receber o evendo listner
             controller.updateFormData();
 
@@ -120,6 +121,7 @@ public class SellerListController implements Initializable, DataChangeListener {
             dialogStage.showAndWait();
 
         } catch (IOException e) {
+            e.printStackTrace();
             Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
