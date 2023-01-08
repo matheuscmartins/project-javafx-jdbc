@@ -46,7 +46,8 @@ public class DepartmentListController implements Initializable {
     @FXML
     public void onBtnNewAction(ActionEvent event){
         Stage parentStage = Utils.currentStage(event); //pega a refencia do stage vindo no parametro
-        createdDialogFrom("/com/udemy/projectjavafxjdbc/gui/DepartmentForm.fxml",parentStage);
+        Department department = new Department();
+        createdDialogFrom(department, "/com/udemy/projectjavafxjdbc/gui/DepartmentForm.fxml",parentStage);
     }
 
     public void setDepartmentService(DepartmentService service){
@@ -76,10 +77,16 @@ public class DepartmentListController implements Initializable {
         departmentTableView.setItems(obsList);
     }
 
-    public void createdDialogFrom(String absoluteName, Stage parentStage){
+    public void createdDialogFrom(Department department, String absoluteName, Stage parentStage){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
             Pane pane = loader.load();
+
+            //trata atualização do obj Department
+            DepartmentFormController controller = loader.getController();
+            controller.setDepartment(department);
+            controller.updateFormData();
+
             Stage dialogStage = new Stage(); //instancia um novo Stage
             dialogStage.setTitle("Enter Department data");  //titulo do Stage
             dialogStage.setScene(new Scene(pane)); //instancia uma nova Scena passando o Pane como parametro
