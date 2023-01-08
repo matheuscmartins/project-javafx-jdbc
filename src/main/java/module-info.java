@@ -6,6 +6,7 @@ module com.udemy.projectjavafxjdbc {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
+    requires java.sql;
 
     opens com.udemy.projectjavafxjdbc to javafx.fxml;
     exports com.udemy.projectjavafxjdbc.application;
