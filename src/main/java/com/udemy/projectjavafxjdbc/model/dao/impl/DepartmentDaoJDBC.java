@@ -2,6 +2,7 @@ package com.udemy.projectjavafxjdbc.model.dao.impl;
 
 import com.udemy.projectjavafxjdbc.Db.DB;
 import com.udemy.projectjavafxjdbc.Db.DbException;
+import com.udemy.projectjavafxjdbc.Db.DbIntegrityException;
 import com.udemy.projectjavafxjdbc.model.dao.DepartmentDao;
 import com.udemy.projectjavafxjdbc.model.entites.Department;
 
@@ -83,7 +84,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){
-            throw new DbException(e.getMessage());
+            throw new DbIntegrityException(e.getMessage());
         } finally {
             DB.closeStatement(preparedStatement);
         }
