@@ -35,15 +35,16 @@ public class MainViewController implements Initializable {
     public void onMenuItemDepartmentAction() {
         loadView("/com/udemy/projectjavafxjdbc/gui/DepartmentList.fxml",
                 (DepartmentListController controller) -> {
-                controller.setDepartmentService(new DepartmentService());
-                controller.updateTableView();
+                    controller.setDepartmentService(new DepartmentService());
+                    controller.updateTableView();
                 });
     }
 
     @FXML
     public void onMenuItemAboutAction() {
         loadView("/com/udemy/projectjavafxjdbc/gui/About.fxml",
-                x -> {});
+                x -> {
+                });
 
     }
 

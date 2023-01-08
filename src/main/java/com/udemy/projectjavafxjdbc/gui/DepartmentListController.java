@@ -44,15 +44,16 @@ public class DepartmentListController implements Initializable {
     private ObservableList<Department> obsList;
 
     @FXML
-    public void onBtnNewAction(ActionEvent event){
+    public void onBtnNewAction(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event); //pega a refencia do stage vindo no parametro
         Department department = new Department();
-        createdDialogFrom(department, "/com/udemy/projectjavafxjdbc/gui/DepartmentForm.fxml",parentStage);
+        createdDialogFrom(department, "/com/udemy/projectjavafxjdbc/gui/DepartmentForm.fxml", parentStage);
     }
 
-    public void setDepartmentService(DepartmentService service){
+    public void setDepartmentService(DepartmentService service) {
         this.service = service;
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -68,8 +69,8 @@ public class DepartmentListController implements Initializable {
         departmentTableView.prefHeightProperty().bind(stage.heightProperty()); //faz o TableView acompanhar a altura da janela
     }
 
-    public void updateTableView(){
-        if (service == null){
+    public void updateTableView() {
+        if (service == null) {
             throw new IllegalStateException("Service was null");
         }
         List<Department> list = service.findAll();
@@ -77,14 +78,15 @@ public class DepartmentListController implements Initializable {
         departmentTableView.setItems(obsList);
     }
 
-    public void createdDialogFrom(Department department, String absoluteName, Stage parentStage){
+    public void createdDialogFrom(Department department, String absoluteName, Stage parentStage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
             Pane pane = loader.load();
 
             //trata atualização do obj Department
             DepartmentFormController controller = loader.getController();
-            controller.setDepartment(department);
+            controller.setDepartment(department); //injeta um department
+            controller.setDepartmentService(new DepartmentService()); //injeta um departmentService
             controller.updateFormData();
 
             Stage dialogStage = new Stage(); //instancia um novo Stage
@@ -95,7 +97,7 @@ public class DepartmentListController implements Initializable {
             dialogStage.initModality(Modality.WINDOW_MODAL); //define a janela como modal
             dialogStage.showAndWait();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
