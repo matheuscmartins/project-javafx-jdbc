@@ -27,7 +27,7 @@ public class DepartmentFormController implements Initializable {
     @FXML
     private TextField txtId;
     @FXML
-    private TextField txtname;
+    private TextField txtName;
     @FXML
     private Label labeError;
     @FXML
@@ -46,10 +46,10 @@ public class DepartmentFormController implements Initializable {
         ValidationException exception = new ValidationException("Validation error");
 
         department.setId(Utils.tryParseToInt(txtId.getText()));
-        if (txtname.getText() == null || txtname.getText().trim().equals("") || txtname.getText() == "null"){
+        if (txtName.getText() == null || txtName.getText().trim().equals("") || txtName.getText() == "null"){
             exception.addError("name", "Field can't be empty");
         }
-        department.setName(txtname.getText());
+        department.setName(txtName.getText());
 
         if (exception.getErrors().size() > 0){
             throw exception;
@@ -102,7 +102,7 @@ public class DepartmentFormController implements Initializable {
 
     private void initializeNodes() {
         Constraints.setTextFieldInteger(txtId);
-        Constraints.setTextFieldMaxLength(txtname, 30);
+        Constraints.setTextFieldMaxLength(txtName, 30);
     }
 
     public void updateFormData() {
@@ -110,7 +110,7 @@ public class DepartmentFormController implements Initializable {
             throw new IllegalStateException("Entity was null");
         }
         txtId.setText(String.valueOf(entity.getId()));
-        txtname.setText(String.valueOf(entity.getName()));
+        txtName.setText(String.valueOf(entity.getName()));
     }
     private void setErrorMessages(Map<String, String> errors){
         Set<String> fields = errors.keySet();

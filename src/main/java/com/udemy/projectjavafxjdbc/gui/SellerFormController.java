@@ -5,20 +5,17 @@ import com.udemy.projectjavafxjdbc.gui.listeners.DataChangeListener;
 import com.udemy.projectjavafxjdbc.gui.util.Alerts;
 import com.udemy.projectjavafxjdbc.gui.util.Constraints;
 import com.udemy.projectjavafxjdbc.gui.util.Utils;
-import com.udemy.projectjavafxjdbc.model.entites.Department;
 import com.udemy.projectjavafxjdbc.model.entites.Seller;
 import com.udemy.projectjavafxjdbc.model.exceptions.ValidationException;
-import com.udemy.projectjavafxjdbc.model.services.DepartmentService;
 import com.udemy.projectjavafxjdbc.model.services.SellerService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class SellerFormController implements Initializable {
@@ -29,9 +26,22 @@ public class SellerFormController implements Initializable {
     @FXML
     private TextField txtId;
     @FXML
-    private TextField txtname;
+    private TextField txtName;
     @FXML
-    private Label labeError;
+    private TextField txtEmail;
+    @FXML
+    private DatePicker dpBirthDate;
+    @FXML
+    private TextField txtBaseSalary;
+    @FXML
+    private Label labeErrorName;
+    @FXML
+    private Label labeErrorEmail;
+    @FXML
+    private Label labeErrorBirthDate;
+    @FXML
+    private Label labeErrorBaseSalary;
+
     @FXML
     private Button btnSave;
     @FXML
@@ -48,10 +58,10 @@ public class SellerFormController implements Initializable {
         ValidationException exception = new ValidationException("Validation error");
 
         seller.setId(Utils.tryParseToInt(txtId.getText()));
-        if (txtname.getText() == null || txtname.getText().trim().equals("") || txtname.getText() == "null"){
+        if (txtName.getText() == null || txtName.getText().trim().equals("") || txtName.getText() == "null"){
             exception.addError("name", "Field can't be empty");
         }
-        seller.setName(txtname.getText());
+        seller.setName(txtName.getText());
 
         if (exception.getErrors().size() > 0){
             throw exception;
@@ -104,7 +114,10 @@ public class SellerFormController implements Initializable {
 
     private void initializeNodes() {
         Constraints.setTextFieldInteger(txtId);
-        Constraints.setTextFieldMaxLength(txtname, 30);
+        Constraints.setTextFieldMaxLength(txtName, 70);
+        Constraints.setTextFieldDouble(txtBaseSalary);
+        Constraints.setTextFieldMaxLength(txtEmail,  60);
+        Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
     }
 
     public void updateFormData() {
@@ -112,13 +125,19 @@ public class SellerFormController implements Initializable {
             throw new IllegalStateException("Entity was null");
         }
         txtId.setText(String.valueOf(entity.getId()));
-        txtname.setText(String.valueOf(entity.getName()));
+        txtName.setText(String.valueOf(entity.getName()));
+        txtEmail.setText(String.valueOf(entity.getEmail()));
+        Locale.setDefault(Locale.US);
+        txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
+        if (entity.getBirthDate() != null) {
+            dpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
+        }
     }
     private void setErrorMessages(Map<String, String> errors){
         Set<String> fields = errors.keySet();
 
         if (fields.contains("name")){
-            labeError.setText(errors.get("name"));
+            labeErrorName.setText(errors.get("name"));
         }
     }
 }
