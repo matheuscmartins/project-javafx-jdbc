@@ -1,6 +1,7 @@
 package com.udemy.projectjavafxjdbc.gui;
 
 import com.udemy.projectjavafxjdbc.Db.DbException;
+import com.udemy.projectjavafxjdbc.gui.listeners.DataChangeListener;
 import com.udemy.projectjavafxjdbc.gui.util.Alerts;
 import com.udemy.projectjavafxjdbc.gui.util.Constraints;
 import com.udemy.projectjavafxjdbc.gui.util.Utils;
@@ -15,12 +16,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DepartmentFormController implements Initializable {
 
     private Department entity;
     private DepartmentService service;
+    private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
     @FXML
     private TextField txtId;
     @FXML
@@ -44,6 +48,10 @@ public class DepartmentFormController implements Initializable {
         department.setName(txtname.getText());
         return department;
     }
+    public void subscribeDataChangeListner(DataChangeListener listener){
+        dataChangeListeners.add(listener);
+    }
+
     @FXML
     public void onBtnSaveAction(ActionEvent event) {
         if (entity == null){
@@ -55,10 +63,18 @@ public class DepartmentFormController implements Initializable {
         try {
             entity = getFormData();
             service.saveOrUpdate(entity);
+            notifyDataChangeListeners();
             Utils.currentStage(event).close();
 
         } catch (DbException e){
             Alerts.showAlert("Error saving object",null, e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void notifyDataChangeListeners() {
+        //executa o onDataChanged em cada um dos listener para notificar os listner
+        for (DataChangeListener listener : dataChangeListeners){
+            listener.onDataChanged();
         }
     }
 

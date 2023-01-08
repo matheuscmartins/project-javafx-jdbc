@@ -1,6 +1,7 @@
 package com.udemy.projectjavafxjdbc.gui;
 
 import com.udemy.projectjavafxjdbc.application.Main;
+import com.udemy.projectjavafxjdbc.gui.listeners.DataChangeListener;
 import com.udemy.projectjavafxjdbc.gui.util.Alerts;
 import com.udemy.projectjavafxjdbc.gui.util.Utils;
 import com.udemy.projectjavafxjdbc.model.entites.Department;
@@ -26,7 +27,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
 
     private DepartmentService service;
     @FXML
@@ -87,6 +88,7 @@ public class DepartmentListController implements Initializable {
             DepartmentFormController controller = loader.getController();
             controller.setDepartment(department); //injeta um department
             controller.setDepartmentService(new DepartmentService()); //injeta um departmentService
+            controller.subscribeDataChangeListner(this); //se auto escreve para receber o evendo listner
             controller.updateFormData();
 
             Stage dialogStage = new Stage(); //instancia um novo Stage
@@ -100,5 +102,9 @@ public class DepartmentListController implements Initializable {
         } catch (IOException e) {
             Alerts.showAlert("IO Exception", "Error load view", e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+    @Override
+    public void onDataChanged(){
+    updateTableView();
     }
 }
