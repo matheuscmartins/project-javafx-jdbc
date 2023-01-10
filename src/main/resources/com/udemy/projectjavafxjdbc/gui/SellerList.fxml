@@ -15,8 +15,11 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
       </Label>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
+      <ToolBar prefHeight="37.0" prefWidth="748.0">
         <items>
           <Button fx:id="btnNew" mnemonicParsing="false" onAction="#onBtnNewAction" text="New" />
         </items>
