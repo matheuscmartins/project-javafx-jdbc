@@ -1,6 +1,6 @@
 # project-javafx-jdbc
 <div>
-° Crud de Vendedores e Departamento,aplicação desenvolvida em java utilizando JavaFX com JDBC.<br>
+° Crud de Vendedores e Departamento, aplicação desenvolvida em java utilizando JavaFX com JDBC.<br>
 ° Povoar o banco de dados.<br>
 ° Banco de dados MySQL.<br>
 ° CRUD - Create, Retrieve, Update, Delete.<br>
